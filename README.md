@@ -6,12 +6,12 @@ A Rust demo program showing the basic components of asynchrony in the language i
 
 ```rust
 struct TimerFuture {
-shared_state: Arc<Mutex<SharedState>>,
+	shared_state: Arc<Mutex<SharedState>>,
 }
 
 struct SharedState {
-completed: bool,
-			   waker: Option<Waker>,
+	completed: bool,
+	waker: Option<Waker>,
 }
 
 impl Future for TimerFuture {
@@ -31,18 +31,18 @@ impl Future for TimerFuture {
 impl TimerFuture {
 	pub fn new(duration: Duration) -> Self {
 		let shared_state = Arc::new(Mutex::new(SharedState {
-completed: false,
-waker: None,
-}));
-...
-TimerFuture { shared_state }
+		completed: false,
+		waker: None,
+	}));
+	...
+	TimerFuture { shared_state }
 }
 ```
 2. **Executor**: *Offloads work off a queue and runs them*
 
 ```rust
 struct Executor {
-ready_queue: Receiver<Arc<Task>>,
+	ready_queue: Receiver<Arc<Task>>,
 }
 
 impl Executor {
@@ -61,7 +61,7 @@ impl ArcWake for Task {
 	fn wake_by_ref(arc_self: &Arc<Self>) {
 		let cloned = arc_self.clone();
 		...
-			arc_self.task_sender.send(cloned).expect("too many tasks queued")
+		arc_self.task_sender.send(cloned).expect("too many tasks queued")
 	}
 }
 ```
@@ -75,7 +75,7 @@ fn genums() -> impl std::ops::Generator<Yield = u32, Return = ()> {
 		let xs: Vec<u32> = (1..10).collect();
 		...
 		yield sum;
-		}
+	}
 }
 ```
 5. **Spawner** : *Spawns new stuff onto the executor!*
@@ -83,7 +83,7 @@ fn genums() -> impl std::ops::Generator<Yield = u32, Return = ()> {
 ```rust
 #[derive(Clone)]
 struct Spawner {
-task_sender: SyncSender<Arc<Task>>,
+	task_sender: SyncSender<Arc<Task>>,
 }
 
 fn new_executor_and_spawner() -> (Executor, Spawner) {
@@ -100,9 +100,9 @@ fn new_executor_and_spawner() -> (Executor, Spawner) {
 // A future can reschedule itself to be polled by an executor
 struct Task {
 	// In progress future to be pushed to completion
-future: Mutex<Option<BoxFuture<'static, ()>>>,
-			// Handle to place task itself back onto the task queue
-			task_sender: SyncSender<Arc<Task>>,
+	future: Mutex<Option<BoxFuture<'static, ()>>>,
+	// Handle to place task itself back onto the task queue
+	task_sender: SyncSender<Arc<Task>>,
 }
 ```
 
