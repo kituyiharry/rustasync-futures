@@ -68,15 +68,15 @@ impl ArcWake for Task {
 
 4. **Generator**(stackless routines) : *Currently unstable*
 
-										```rust
-										// Just to understand generators!
-										fn genums() -> impl std::ops::Generator<Yield = u32, Return = ()> {
-											|| {
-												let xs: Vec<u32> = (1..10).collect();
-												...
-													yield sum;
-											}
-										}
+```rust
+// Just to understand generators!
+fn genums() -> impl std::ops::Generator<Yield = u32, Return = ()> {
+	|| {
+		let xs: Vec<u32> = (1..10).collect();
+		...
+		yield sum;
+		}
+}
 ```
 5. **Spawner** : *Spawns new stuff onto the executor!*
 
