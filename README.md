@@ -4,7 +4,7 @@ A Rust demo program showing the basic components of asynchrony in the language i
 
 	1. **Future**: *A Unit of computation*
 
-		```rust
+```rust
 		struct TimerFuture {
 			shared_state: Arc<Mutex<SharedState>>,
 		}
@@ -37,10 +37,10 @@ A Rust demo program showing the basic components of asynchrony in the language i
 			...
 			TimerFuture { shared_state }
 		}
-		```
+```
 	2. **Executor**: *Offloads work off a queue and runs them*
 
-		```rust
+```rust
 			struct Executor {
 				ready_queue: Receiver<Arc<Task>>,
 			}
@@ -53,7 +53,7 @@ A Rust demo program showing the basic components of asynchrony in the language i
 			}
 		}
 
-		```
+```
 	3. **Reactor**: *Executes tasks are ready to execute*
 
 		```rust
@@ -68,7 +68,7 @@ A Rust demo program showing the basic components of asynchrony in the language i
 
 	4. **Generator**(stackless routines) : *Currently unstable*
 	
-		```rust
+```rust
 		// Just to understand generators!
 		fn genums() -> impl std::ops::Generator<Yield = u32, Return = ()> {
 			|| {
@@ -77,10 +77,10 @@ A Rust demo program showing the basic components of asynchrony in the language i
 					yield sum;
 			}
 		}
-		```
+```
 	5. **Spawner** : *Spawns new stuff onto the executor!*
 
-		```rust
+```rust
 		#[derive(Clone)]
 		struct Spawner {
 			task_sender: SyncSender<Arc<Task>>,
@@ -93,10 +93,10 @@ A Rust demo program showing the basic components of asynchrony in the language i
 			(Executor { ready_queue }, Spawner { task_sender })
 		}
 
-		```
+```
 	6. **Task** : *A chain of futures or Unit of work*
 		
-		```rust
+```rust
 		// A future can reschedule itself to be polled by an executor
 		struct Task {
 			// In progress future to be pushed to completion
@@ -104,7 +104,7 @@ A Rust demo program showing the basic components of asynchrony in the language i
 			// Handle to place task itself back onto the task queue
 			task_sender: SyncSender<Arc<Task>>,
 		}
-		```
+```
 
 Adapted from : [This talk](https://www.youtube.com/watch?v=NNwK5ZPAJCk) and [This sources](https://github.com/rust-lang/async-book/blob/master/examples/02_04_executor/src/lib.rs)
 
