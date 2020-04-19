@@ -1,6 +1,7 @@
 # Rust async-await
 
 A Rust demo program showing the basic components of asynchrony in the language i.e
+I made this just to build an intuition on how rust futures work
 
 1. **Future**: *A Unit of computation*
 
