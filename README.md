@@ -55,7 +55,7 @@ impl Executor {
 }
 
 ```
-3. **Reactor**: *Executes tasks are ready to execute*
+3. **Reactor**: *Executes tasks are ready to execute*, Basically how you **react** when you (the task) are awakened
 
 ```rust
 impl ArcWake for Task {
