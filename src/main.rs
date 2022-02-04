@@ -1,5 +1,5 @@
-#![feature(generator_trait)]
-#![feature(generators)]
+//#![feature(generator_trait)]
+//#![feature(generators)]
 extern crate futures;
 type BoxFuture<'a, T> = Pin<Box<dyn Future<Output = T> + 'a + Send>>;
 //type BoxFuture<'a, T> = Box<dyn Future<Output = T> + 'a + Send>; // https://docs.rs/futures/0.1.5/futures/future/type.BoxFuture.html
@@ -14,6 +14,7 @@ use std::future::Future;
 // But rust has no GC, Thus moving it with pointers will invalidate any pointers and BOOM!
 //
 // Pin on pointer, will no longer move....forever!!
+// Pin is the language for borrowing in futures i think
 // UnPin is opposite!!
 use std::pin::Pin;
 use std::sync::mpsc::{sync_channel, Receiver, SyncSender};
@@ -141,16 +142,16 @@ impl Executor {
 }
 
 // Just to understand generators!
-fn genums() -> impl std::ops::Generator<Yield = u32, Return = ()> {
-    || {
-        let xs: Vec<u32> = (1..10).collect();
-        let mut sum = 0;
-        for i in xs {
-            sum += i;
-            yield sum;
-        }
-    }
-}
+// fn genums() -> impl std::ops::Generator<Yield = u32, Return = ()> {
+//     || {
+//         let xs: Vec<u32> = (1..10).collect();
+//         let mut sum = 0;
+//         for i in xs {
+//             sum += i;
+//             yield sum;
+//         }
+//     }
+// }
 
 // Rules of async/await
 // Async fn return some sort of anon future struct
